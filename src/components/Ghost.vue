@@ -83,6 +83,7 @@ export default {
         this.leftmargin = 100;
         this.advanceandWait();
       } else {
+        this.moving = false;
         if (this.lastMoveTimeout != null) {
           clearTimeout(this.lastMoveTimeout);
         }
