@@ -1,16 +1,21 @@
 <template>
-  <div class="masterdiv">
-    <h1>Welcome to the ghost game</h1>
-    <h2>Protect your chocolate from the ghosts!</h2>
-    <h1 v-if="gameOver">❌</h1>
-    <h1 v-else>✔</h1>
-    <GamePiece
-      v-for="id in gamePieces"
-      v-bind:key="id"
-      v-on:gameOver="endGame()"
-      :gameovergamepiece="gameOver"
-    />
-    <button v-on:click="resetGames()">Reset</button>
+  <div>
+    <div class="serverStatus" v-if="isServerConnected">
+      <h3>Connected to server!</h3>
+    </div>
+    <div class="masterdiv">
+      <h1>Welcome to the ghost game</h1>
+      <h2>Protect your chocolate from the ghosts!</h2>
+      <h1 v-if="gameOver">❌</h1>
+      <h1 v-else>✔</h1>
+      <GamePiece
+        v-for="id in gamePieces"
+        v-bind:key="id"
+        v-on:gameOver="endGame(true)"
+        :gameovergamepiece="gameOver"
+      />
+      <button v-on:click="resetGames(true)">Reset</button>
+    </div>
   </div>
 </template>
 
@@ -22,17 +27,22 @@ export default {
   data: function() {
     return {
       gameOver: false,
-      gamePieces: [1, 2, 3, 4]
+      gamePieces: [1, 2, 3, 4],
+      isServerConnected: false,
+      serverSocket: null
     };
   },
   components: {
     GamePiece
   },
   methods: {
-    endGame: function() {
+    endGame: function(sendMessage) {
       this.gameOver = true;
+      if (sendMessage == true) {
+        this.sendServerMessage("gameover");
+      }
     },
-    resetGames: function() {
+    resetGames: function(sendMessage) {
       if (this.gameOver) {
         this.gameOver = false;
       } else {
@@ -42,7 +52,51 @@ export default {
         }.bind(this);
         setTimeout(delayedReset, 100);
       }
+      if (sendMessage == true) {
+        this.sendServerMessage("reset");
+      }
+    },
+    handleServerMessages(evt) {
+      console.log("Received message:", evt);
+      if (evt.data == "forcegameover") {
+        this.endGame(false);
+      } else if (evt.data == "forcereset") {
+        this.resetGames(false);
+      }
+    },
+    sendServerMessage(message) {
+      if (this.isServerConnected) {
+        this.serverSocket.send(message);
+      }
+    },
+    connectToServer() {
+      this.serverSocket = new WebSocket("ws://localhost:9999");
+
+      let onOpenFunction = function() {
+        this.isServerConnected = true;
+      }.bind(this);
+
+      let onMessageReceived = function(evt) {
+        this.handleServerMessages(evt);
+      }.bind(this);
+
+      this.serverSocket.onopen = onOpenFunction;
+
+      this.serverSocket.onmessage = onMessageReceived;
+
+      this.serverSocket.onclose = function() {
+        // websocket is closed.
+        console.log("Connection is closed...");
+      };
+
+      this.serverSocket.onerror = function() {
+        console.log("Error in socket");
+        this.isServerConnected = false;
+      };
     }
+  },
+  created: function() {
+    this.connectToServer();
   }
 };
 </script>
@@ -55,5 +109,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.serverStatus {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  position: absolute;
+  top: 0px;
 }
 </style>
