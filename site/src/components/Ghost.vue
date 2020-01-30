@@ -16,7 +16,7 @@ export default {
       advanceSecAmountDev: 1000,
       advancePercAmountMean: 10,
       advancePercAmountDev: 5,
-      pushbackAmount: 10,
+      pushbackAmount: 50,
       lastMoveTimeout: null,
       moving: true
     };
