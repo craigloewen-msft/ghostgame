@@ -25,3 +25,5 @@ wss.on('connection', ws => {
         broadcastMessage("closed");
     })
 })
+
+console.log("Web Socket ready for connections!");
