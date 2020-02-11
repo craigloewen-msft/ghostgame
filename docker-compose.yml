@@ -1,0 +1,9 @@
+version: '3'
+services:
+        siteserver:
+                build: ./site
+                network_mode: "host"
+        socketserver:
+                build: ./socketLogic
+                network_mode: "host"
+
