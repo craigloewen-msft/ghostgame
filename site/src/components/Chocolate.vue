@@ -1,13 +1,13 @@
 <template>
   <div
-    class="nutellaIcon"
+    class="chocolateIcon"
     v-bind:style="{ 'margin-left': leftmargin + '%' }"
   >🍫</div>
 </template>
 
 <script>
 export default {
-  name: "Nutella",
+  name: "Chocolate",
   data: function() {
     return {
       leftmargin: this.position
@@ -19,7 +19,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.nutellaIcon {
+.chocolateIcon {
   font-size: 72px;
   text-align: left;
   transition-property: margin-left;

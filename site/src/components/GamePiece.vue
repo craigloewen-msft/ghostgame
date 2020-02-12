@@ -1,6 +1,6 @@
 <template>
   <div style="height:100px;">
-    <Nutella class="unselectable" position="5" />
+    <Chocolate class="unselectable" position="5" />
     <Ghost class="unselectable" v-on:goalComplete="endGame()" goal="5" :gameoverghost="gameovergamepiece" />
   </div>
   <!-- <ChildSwitch v-on:childswitchswitched="switchHit($event)"/> -->
@@ -10,7 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 <script>
 import Ghost from "./Ghost.vue";
-import Nutella from "./Nutella.vue";
+import Chocolate from "./Chocolate.vue";
 
 export default {
   name: "GamePiece",
@@ -21,7 +21,7 @@ export default {
   },
   components: {
     Ghost,
-    Nutella
+    Chocolate
   },
   methods: {
     endGame: function() {
