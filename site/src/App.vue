@@ -14,7 +14,8 @@
         v-on:gameOver="endGame(true)"
         :gameovergamepiece="gameOver"
       />
-      <button v-on:click="resetGames(true)">Reset</button>
+      <br/>
+      <a href="#" class="resetButton" v-on:click="resetGames(true)">Reset</a>
     </div>
   </div>
 </template>
@@ -134,5 +135,15 @@ export default {
   color: #2c3e50;
   position: absolute;
   top: 0px;
+  font-size: 0.5em;
+}
+
+.resetButton {
+  background-color:#e81224;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #eaeaea;
+  border: 4px solid black;
+  padding: 10px 20px 10px 20px;
 }
 </style>
