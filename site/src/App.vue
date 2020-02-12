@@ -6,7 +6,7 @@
     <div class="masterdiv">
       <h1>Welcome to the ghost game</h1>
       <h2>Protect your chocolate from the ghosts!</h2>
-      <h1 v-if="gameOver">❌</h1>
+      <h1 v-if="gameOver && !firstRun">❌</h1>
       <h1 v-else>✔</h1>
       <GamePiece
         v-for="id in gamePieces"
@@ -29,7 +29,8 @@ export default {
       gameOver: true,
       gamePieces: [1, 2, 3, 4],
       isServerConnected: false,
-      serverSocket: null
+      serverSocket: null,
+      firstRun: true
     };
   },
   components: {
@@ -99,6 +100,15 @@ export default {
         console.log("Error in socket");
         this.isServerConnected = false;
       };
+    }
+  },
+  watch: {
+    gameOver: function(val) {
+      if (this.firstRun) {
+        if (val == true) {
+          this.firstRun = false;
+        }
+      }
     }
   },
   created: function() {
