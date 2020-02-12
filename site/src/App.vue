@@ -26,7 +26,7 @@ export default {
   name: "app",
   data: function() {
     return {
-      gameOver: false,
+      gameOver: true,
       gamePieces: [1, 2, 3, 4],
       isServerConnected: false,
       serverSocket: null
@@ -42,7 +42,7 @@ export default {
         this.sendServerMessage("gameover");
       }
     },
-    resetGames: function(sendMessage) {
+    resetThis: function() {
       if (this.gameOver) {
         this.gameOver = false;
       } else {
@@ -52,6 +52,12 @@ export default {
         }.bind(this);
         setTimeout(delayedReset, 100);
       }
+    },
+    resetGames: function(sendMessage) {
+      if (!this.isServerConnected) {
+        this.resetThis();
+      }
+
       if (sendMessage == true) {
         this.sendServerMessage("reset");
       }
@@ -61,7 +67,7 @@ export default {
       if (evt.data == "forcegameover") {
         this.endGame(false);
       } else if (evt.data == "forcereset") {
-        this.resetGames(false);
+        this.resetThis();
       }
     },
     sendServerMessage(message) {
