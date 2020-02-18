@@ -28,7 +28,7 @@ export default {
   data: function() {
     return {
       gameOver: true,
-      gamePieces: [1, 2, 3, 4],
+      gamePieces: [1, 2, 3],
       isServerConnected: false,
       serverSocket: null,
       firstRun: true

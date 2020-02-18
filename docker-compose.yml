@@ -2,8 +2,12 @@ version: '3'
 services:
         siteserver:
                 build: ./site
-                network_mode: "host"
+                # network_mode: "host"
+                ports: 
+                        - "8080:8080"
         socketserver:
                 build: ./socketLogic
-                network_mode: "host"
+                # network_mode: "host"
+                ports:
+                        - "9999:9999"
 

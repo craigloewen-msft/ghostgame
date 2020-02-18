@@ -17,6 +17,8 @@ wss.on('connection', ws => {
         if (message == "gameover") {
             broadcastMessage("forcegameover");
         } if (message == "reset") {
+            let myPlatform = process.platform;
+            console.log(myPlatform);
             broadcastMessage("forcereset");
         }
     });
